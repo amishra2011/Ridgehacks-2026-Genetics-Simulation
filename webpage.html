@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gene Editing Tech</title>
+  <style>
+    :root {
+      --bg-dark: #0b0f1a;
+      --panel-dark: #11172a;
+      --accent-blue: #4fc3f7;
+      --text-main: #f3f3f3;
+      --text-dim: #b0bec5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-dark);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 20px;
+      background: var(--panel-dark);
+      position: sticky;
+      top: 0;
+      border-bottom: 2px solid var(--accent-blue);
+      z-index: 100;
+    }
+
+    .navbar a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 18px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .navbar a:hover,
+    .navbar a.active {
+      background: var(--accent-blue);
+      color: var(--bg-dark);
+    }
+
+    /* ── Pages ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HOME: Hero ── */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--text-dim);
+    }
+
+    /* ── DNA Divider (shared) ── */
+    .dna-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 32px 0 44px;
+      overflow: hidden;
+    }
+
+    .pair {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .base {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--accent-blue);
+      color: white;
+      font-weight: bold;
+      background: rgba(79, 195, 247, 0.1);
+      border-radius: 4px;
+    }
+
+    .base-line {
+      width: 2px;
+      height: 40px;
+      background: rgba(79, 195, 247, 0.5);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateY(0);    opacity: 1;   }
+      50%       { transform: translateY(-15px); opacity: 0.7; }
+    }
+
+    @keyframes moveTop {
+      0%, 100% { transform: translateY(0)   scale(1);   opacity: 1;   }
+      50%       { transform: translateY(-25px) scale(0.8); opacity: 0.6; }
+    }
+
+    @keyframes moveBottom {
+      0%, 100% { transform: translateY(0)   scale(1);   opacity: 1;   }
+      50%       { transform: translateY(25px)  scale(0.8); opacity: 0.6; }
+    }
+
+    @keyframes stretchLine {
+      0%, 100% { height: 40px; }
+      50%       { height: 90px; }
+    }
+
+    /* ── HOME: Cards ── */
+    .section {
+      padding: 0 20px 80px;
+      text-align: center;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: var(--panel-dark);
+      padding: 30px;
+      width: 280px;
+      border-radius: 12px;
+      border: 1px solid rgba(79, 195, 247, 0.1);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background: #1a2340;
+      border-color: var(--accent-blue);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .card h3 {
+      margin-bottom: 15px;
+      color: var(--accent-blue);
+    }
+
+    .card p {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* ── WHAT IS GENE EDITING: Content ── */
+    .page-wrapper {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+      text-align: center;
+    }
+
+    .title-header h1 {
+      font-size: 48px;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .content-section {
+      text-align: left;
+      margin-top: 0;
+    }
+
+    .content-section h2 {
+      font-size: 28px;
+      color: var(--accent-blue);
+      margin-top: 20px;
+      border-bottom: 1px solid #1f2a44;
+      padding-bottom: 10px;
+      font-weight: 300;
+    }
+
+    .content-section p {
+      color: var(--text-dim);
+      font-size: 18px;
+      margin-bottom: 25px;
+      line-height: 1.8;
+    }
+
+    .content-section ul {
+      color: var(--text-dim);
+      padding-left: 20px;
+      font-size: 18px;
+    }
+
+    .content-section li {
+      margin-bottom: 15px;
+    }
+
+    .content-section strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* ── Cas9 Animation ── */
+    .crispr-section {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .leg-item { display: flex; align-items: center; gap: 6px; }
+
+    .leg-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    #cas9-canvas {
+      display: block;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid rgba(79, 195, 247, 0.2);
+    }
+
+    .stage-info {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent-blue);
+      min-height: 20px;
+    }
+
+    .stage-desc {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      min-height: 18px;
+    }
+
+    .anim-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .anim-controls button {
+      background: transparent;
+      border: 1px solid rgba(79, 195, 247, 0.4);
+      color: var(--accent-blue);
+      font-size: 13px;
+      padding: 6px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .anim-controls button:hover {
+      background: var(--accent-blue);
+      color: var(--bg-dark);
+    }
+
+    .speed-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .speed-wrap input[type="range"] {
+      width: 80px;
+      accent-color: var(--accent-blue);
+    }
+
+    /* ── Footer ── */
+    .creds {
+      text-align: right;
+      padding: 30px 50px 40px;
+      color: var(--text-dim);
+      font-size: 14px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a onclick="showPage('home')"       id="nav-home"       class="active">Home</a>
+    <a onclick="showPage('what')"       id="nav-what">What is Gene Editing</a>
+    <a onclick="showPage('apps')"       id="nav-apps">Gene Editing Applications</a>
+    <a onclick="showPage('crispr')"     id="nav-crispr">CRISPR Example</a>
+  </nav>
+
+  <!-- ══════════════ HOME PAGE ══════════════ -->
+  <div class="page active" id="page-home">
+
+    <div class="hero">
+      <h1>Gene Editing Tech</h1>
+      <p>Rewriting the code of life through molecular precision. Discover the tools that are redefining medicine and biotechnology.</p>
+    </div>
+
+    <div class="dna-row" id="dna-home"></div>
+
+    <div class="section">
+      <div class="card-container">
+        <div class="card" onclick="showPage('what')">
+          <h3>What is Gene Editing?</h3>
+          <p>An introduction to the molecular scissors used to add, remove, or alter DNA sequences in living organisms.</p>
+        </div>
+        <div class="card" onclick="showPage('apps')">
+          <h3>Editing Applications</h3>
+          <p>From curing genetic disorders to engineering resilient crops — explore how this tech is used in the real world.</p>
+        </div>
+        <div class="card" onclick="showPage('crispr')">
+          <h3>CRISPR Example</h3>
+          <p>A deep dive into the Cas9 system: how a bacterial defense mechanism became the world's most precise tool.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="creds">Made with ♥ by team YAAM</div>
+  </div>
+
+  <!-- ══════════════ WHAT IS GENE EDITING PAGE ══════════════ -->
+  <div class="page" id="page-what">
+
+    <div class="page-wrapper">
+      <header class="title-header">
+        <h1>What is Gene Editing?</h1>
+      </header>
+
+      <div class="dna-row" id="dna-what"></div>
+
+      <main class="content-section">
+        <h2>Gene Editing in a Nutshell</h2>
+        <p>
+          Gene editing is a powerful tool used to make highly specific changes to the DNA of a living cell. It allows scientists to "cut" the double helix at a precise location to either disable a harmful gene or insert a functional one.
+        </p>
+        <p>
+          The technology relies on specialized enzymes that act as molecular scissors. Once the DNA is cut, the cell's natural repair mechanisms kick in to stitch the gap back together, incorporating the desired changes in the process.
+        </p>
+
+        <h2>The History of Gene Correction</h2>
+        <ul>
+          <li><strong>1970s:</strong> Discovery of restriction enzymes, the first natural tools used to cut DNA at specific (though limited) sequences.</li>
+          <li><strong>1990s – 2000s:</strong> The era of "Programmable Scissors" began with Zinc Finger Nucleases (ZFNs) and TALENs, which allowed for more customization but were difficult to build.</li>
+          <li><strong>2012:</strong> The CRISPR-Cas9 revolution. Scientists repurposed a bacterial immune system into a simple, cheap, and highly accurate gene-editing platform.</li>
+          <li><strong>Present:</strong> Research is shifting toward "Prime Editing" and "Base Editing," which allow for even finer control without breaking both strands of the DNA.</li>
+        </ul>
+
+        <h2>The Newest Edition: CRISPR</h2>
+        <p>
+          CRISPR is a gene-editing tool based on a natural system found in bacteria. It uses proteins like Cas9 to cut DNA at specific locations, allowing scientists to change genes with high precision. This makes it faster and more efficient than older genetic engineering methods.
+        </p>
+        <p>
+          It has major uses in medicine and agriculture. Scientists are testing CRISPR to treat diseases like sickle cell disease by fixing faulty genes, and to improve crops by making them more resistant to pests and harsh conditions.
+        </p>
+      </main>
+    </div>
+
+    <!-- Cas9 Animation -->
+    <div class="crispr-section">
+      <div class="section-label">Live Cas9 Animation</div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#4A90D9"></div>DNA 5'→3'</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#E87040"></div>DNA 3'→5'</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#22C55E"></div>Guide RNA</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#7C3AED"></div>Cas9 protein</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#EF4444"></div>Cleavage</div>
+      </div>
+      <canvas id="cas9-canvas" height="280"></canvas>
+      <div class="stage-info" id="stage-info">Stage 1 of 5 — Cas9·gRNA complex forms</div>
+      <div class="stage-desc" id="stage-desc">Cas9 protein binds to guide RNA, forming an active ribonucleoprotein complex.</div>
+      <div class="anim-controls">
+        <button id="btn-play">Pause</button>
+        <button id="btn-reset">Restart</button>
+        <div class="speed-wrap">
+          <label for="speed-sl">Speed</label>
+          <input type="range" id="speed-sl" min="0.3" max="3" step="0.1" value="1">
+          <span id="speed-val">1×</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="creds">Made with ♥ by team YAAM</div>
+  </div>
+
+  <!-- ══════════════ APPLICATIONS PAGE (placeholder) ══════════════ -->
+  <div class="page" id="page-apps">
+    <div class="page-wrapper">
+      <header class="title-header">
+        <h1>Gene Editing Applications</h1>
+      </header>
+      <div class="dna-row" id="dna-apps"></div>
+      <main class="content-section">
+        <h2>Coming Soon</h2>
+        <p>This section will cover real-world applications of gene editing — from treating genetic diseases to engineering drought-resistant crops.</p>
+      </main>
+    </div>
+    <div class="creds">Made with ♥ by team YAAM</div>
+  </div>
+
+  <!-- ══════════════ CRISPR EXAMPLE PAGE (placeholder) ══════════════ -->
+  <div class="page" id="page-crispr">
+    <div class="page-wrapper">
+      <header class="title-header">
+        <h1>CRISPR Example</h1>
+      </header>
+      <div class="dna-row" id="dna-crispr"></div>
+      <main class="content-section">
+        <h2>Coming Soon</h2>
+        <p>This section will walk through a step-by-step CRISPR-Cas9 example, showing exactly how a target gene is identified, cut, and repaired.</p>
+      </main>
+    </div>
+    <div class="creds">Made with ♥ by team YAAM</div>
+  </div>
+
+
+  <script>
+    /* ── Page switching ── */
+    const pages = { home: 'page-home', what: 'page-what', apps: 'page-apps', crispr: 'page-crispr' };
+    const navs  = { home: 'nav-home',  what: 'nav-what',  apps: 'nav-apps',  crispr: 'nav-crispr' };
+
+    function showPage(id) {
+      Object.values(pages).forEach(p => document.getElementById(p).classList.remove('active'));
+      Object.values(navs).forEach(n  => document.getElementById(n).classList.remove('active'));
+      document.getElementById(pages[id]).classList.add('active');
+      document.getElementById(navs[id]).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    /* ── DNA Dividers ── */
+    const pairs = [
+      ["A","T"],["G","C"],["T","A"],["C","G"],
+      ["A","T"],["G","C"],["T","A"],["C","G"],["T","A"],["G","C"]
+    ];
+
+    function buildHomeDNA(containerId) {
+      const container = document.getElementById(containerId);
+      pairs.forEach((pair, i) => {
+        const div = document.createElement('div');
+        div.className = 'pair';
+        div.innerHTML = `
+          <div class="base">${pair[0]}</div>
+          <div class="base-line"></div>
+          <div class="base">${pair[1]}</div>
+        `;
+        div.style.animation = `pulse 1.2s ease-in-out ${i * 0.15}s infinite`;
+        container.appendChild(div);
+      });
+    }
+
+    function buildSplitDNA(containerId) {
+      const container = document.getElementById(containerId);
+      pairs.forEach((pair, i) => {
+        const delay = i * 0.15;
+        const div = document.createElement('div');
+        div.className = 'pair';
+        div.innerHTML = `
+          <div class="base" style="animation: moveTop    2s ease-in-out ${delay}s infinite">${pair[0]}</div>
+          <div class="base-line"  style="animation: stretchLine 2s ease-in-out ${delay}s infinite"></div>
+          <div class="base" style="animation: moveBottom 2s ease-in-out ${delay}s infinite">${pair[1]}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    buildHomeDNA('dna-home');
+    buildSplitDNA('dna-what');
+    buildSplitDNA('dna-apps');
+    buildSplitDNA('dna-crispr');
+
+    /* ── Cas9 Canvas Animation ── */
+    const canvas = document.getElementById('cas9-canvas');
+    const ctx    = canvas.getContext('2d');
+    const ACCENT = '#4fc3f7';
+    const PANEL  = '#11172a';
+
+    function resizeCanvas() {
+      canvas.width  = canvas.parentElement.clientWidth || 640;
+      canvas.height = 280;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const STAGES = [
+      { name: "Stage 1 of 5 — Cas9·gRNA complex forms",       desc: "Cas9 protein binds to guide RNA, forming an active ribonucleoprotein complex." },
+      { name: "Stage 2 of 5 — Complex scans DNA",              desc: "The Cas9·gRNA complex slides along the DNA searching for a complementary PAM sequence (NGG)." },
+      { name: "Stage 3 of 5 — Target recognition & R-loop",   desc: "Guide RNA hybridizes with the complementary strand, displacing the non-template strand (R-loop)." },
+      { name: "Stage 4 of 5 — DNA cleavage",                  desc: "HNH cuts the complementary strand; RuvC cuts the non-complementary strand — a double-strand break." },
+      { name: "Stage 5 of 5 — Strands separate",              desc: "Cas9 releases the cleaved DNA. The cell's repair machinery (NHEJ or HDR) takes over." }
+    ];
+
+    let t = 0, playing = true, speed = 1, raf, last = null;
+    const CYCLE = 600;
+
+    function eio(x) { return x < 0.5 ? 2*x*x : 1 - Math.pow(-2*x+2, 2)/2; }
+    function lerp(a, b, x) { return a + (b - a) * x; }
+
+    function drawHelix(cx, y, w, h, turns, phase, alpha) {
+      const pts = 180;
+      ctx.globalAlpha = alpha;
+      for (let i = 0; i < pts; i++) {
+        const x     = cx - w/2 + (w/pts)*i;
+        const ang   = (i/pts)*turns*Math.PI*2 + phase;
+        const y1    = y + Math.sin(ang)*h;
+        const y2    = y + Math.sin(ang + Math.PI)*h;
+        const cross = Math.abs(Math.cos(ang));
+        if (cross < 0.28) {
+          ctx.beginPath(); ctx.moveTo(x, y1); ctx.lineTo(x, y2);
+          ctx.strokeStyle = '#6a7080'; ctx.lineWidth = 1;
+          ctx.globalAlpha = alpha * (0.28 - cross) / 0.28 * 0.75;
+          ctx.stroke();
+          ctx.globalAlpha = alpha;
+        }
+      }
+      const pA = [], pB = [];
+      for (let i = 0; i <= pts; i++) {
+        const x   = cx - w/2 + (w/pts)*i;
+        const ang = (i/pts)*turns*Math.PI*2 + phase;
+        pA.push([x, y + Math.sin(ang)*h]);
+        pB.push([x, y + Math.sin(ang + Math.PI)*h]);
+      }
+      function strand(path, col, isA) {
+        for (let s = 0; s < path.length - 1; s++) {
+          const ang   = (s/pts)*turns*Math.PI*2 + phase;
+          const front = Math.sin(ang + (isA ? 0 : Math.PI)) > 0;
+          ctx.beginPath(); ctx.moveTo(path[s][0], path[s][1]); ctx.lineTo(path[s+1][0], path[s+1][1]);
+          ctx.strokeStyle = col; ctx.lineWidth = front ? 3 : 1.5;
+          ctx.globalAlpha = alpha * (front ? 1 : 0.5);
+          ctx.stroke();
+        }
+      }
+      strand(pA, '#4A90D9', true);
+      strand(pB, '#E87040', false);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawCas9(x, y, openAmt, alpha) {
+      ctx.globalAlpha = alpha;
+      const gap = openAmt * 28;
+      ctx.beginPath(); ctx.ellipse(x, y - gap - 20, 38, 24, 0, 0, Math.PI*2);
+      ctx.fillStyle = '#7C3AED'; ctx.fill();
+      ctx.strokeStyle = '#6D28D9'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(x, y + gap + 20, 32, 19, 0, 0, Math.PI*2);
+      ctx.fillStyle = '#6D28D9'; ctx.fill();
+      ctx.strokeStyle = '#5B21B6'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.font = '500 8px Segoe UI, Arial, sans-serif';
+      ctx.fillStyle = '#EDE9FE'; ctx.textAlign = 'center';
+      ctx.fillText('HNH',  x, y - gap - 17);
+      ctx.fillText('RuvC', x, y + gap + 23);
+      ctx.font = '500 10px Segoe UI, Arial, sans-serif';
+      ctx.fillStyle = '#C4B5FD';
+      ctx.fillText('Cas9', x, y + gap + 40);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawGuideRNA(x, y, len, alpha) {
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      for (let i = 0; i <= 40; i++) {
+        const px = x + (len/40)*i;
+        const py = y + Math.sin(i * 0.8) * 5 * (i < 15 ? 1 : 0.25);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = '#22C55E'; ctx.lineWidth = 2.5; ctx.setLineDash([]); ctx.stroke();
+      ctx.font = '500 9px Segoe UI, Arial, sans-serif';
+      ctx.fillStyle = '#86EFAC'; ctx.textAlign = 'left';
+      ctx.fillText('gRNA', x, y - 9);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawPAM(x, y, alpha) {
+      ctx.globalAlpha = alpha;
+      const w = 34, h = 17;
+      ctx.fillStyle = 'rgba(250,200,80,0.12)'; ctx.strokeStyle = '#D97706'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.roundRect(x - w/2, y - h/2, w, h, 4); ctx.fill(); ctx.stroke();
+      ctx.font = '500 8px Segoe UI, Arial, sans-serif';
+      ctx.fillStyle = '#FDE68A'; ctx.textAlign = 'center';
+      ctx.fillText('NGG', x, y + 3);
+      ctx.globalAlpha = 1;
+    }
+
+    function render(t) {
+      const W = canvas.width, H = canvas.height;
+      ctx.fillStyle = PANEL; ctx.fillRect(0, 0, W, H);
+
+      const p      = (t % CYCLE) / CYCLE;
+      const stageF = p * 5;
+      const stage  = Math.min(4, Math.floor(stageF));
+      const sp     = stageF - stage;
+      const se     = eio(sp);
+
+      if (STAGES[stage]) {
+        document.getElementById('stage-info').textContent = STAGES[stage].name;
+        document.getElementById('stage-desc').textContent = STAGES[stage].desc;
+      }
+
+      const cx     = W / 2;
+      const dnaY   = H / 2 + 8;
+      const helixW = W * 0.72;
+      const helixH = 28;
+      const turns  = 4;
+      const pamX   = cx + 28;
+
+      const dnaPhase = stage === 1 ? se * Math.PI * 0.75 : 0;
+      drawHelix(cx, dnaY, helixW, helixH, turns, dnaPhase, stage === 4 ? lerp(1, 0.35, se) : 1);
+
+      if (stage >= 1) drawPAM(pamX, dnaY + helixH + 22, stage === 1 ? eio(Math.min(1, sp * 3)) : 1);
+
+      let cas9X, openAmt, cas9Alpha;
+      if (stage === 0) {
+        cas9X = cx - W * 0.28; openAmt = lerp(0.85, 0.5, se); cas9Alpha = eio(Math.min(1, sp * 2));
+      } else if (stage === 1) {
+        cas9X = lerp(cx - W * 0.28, pamX - 14, se); openAmt = 0.5; cas9Alpha = 1;
+      } else if (stage === 2) {
+        cas9X = pamX - 14; openAmt = lerp(0.5, 0.04, se); cas9Alpha = 1;
+      } else if (stage === 3) {
+        cas9X = pamX - 14; openAmt = 0.04; cas9Alpha = 1;
+      } else {
+        cas9X = lerp(pamX - 14, pamX - 70, se); openAmt = lerp(0.04, 0.9, se); cas9Alpha = lerp(1, 0.25, se);
+      }
+
+      drawGuideRNA(cas9X - 34, dnaY - 38, 66, cas9Alpha);
+      drawCas9(cas9X, dnaY, openAmt, cas9Alpha);
+
+      if (stage >= 2 && stage < 4) {
+        ctx.globalAlpha = (stage === 2 ? se : 1) * 0.65;
+        ctx.strokeStyle = '#22C55E'; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(pamX - 40, dnaY - 8);
+        ctx.bezierCurveTo(pamX - 18, dnaY - 22, pamX + 10, dnaY - 22, pamX + 24, dnaY - 8);
+        ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      }
+
+      if (stage === 3) {
+        const cAlpha = eio(Math.min(1, sp * 2));
+        ctx.globalAlpha = cAlpha;
+        ctx.setLineDash([4, 3]); ctx.strokeStyle = '#EF4444'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(pamX - 14, dnaY - helixH - 22); ctx.lineTo(pamX - 14, dnaY - helixH); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pamX - 14, dnaY + helixH); ctx.lineTo(pamX - 14, dnaY + helixH + 22); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = '16px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('✂', pamX - 14, dnaY - helixH - 26);
+        ctx.fillText('✂', pamX - 14, dnaY + helixH + 40);
+        ctx.globalAlpha = 1;
+      }
+
+      if (stage === 4) {
+        const drift = se * 16;
+        ctx.globalAlpha = se * 0.9;
+        ctx.strokeStyle = '#4A90D9'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(pamX - 30, dnaY - 5); ctx.lineTo(pamX - 14 - drift, dnaY - 5); ctx.stroke();
+        ctx.strokeStyle = '#E87040';
+        ctx.beginPath(); ctx.moveTo(pamX + 2, dnaY + 5); ctx.lineTo(pamX + 2 + drift, dnaY + 5); ctx.stroke();
+        ctx.font = '500 11px Segoe UI, Arial, sans-serif';
+        ctx.fillStyle = '#FCA5A5'; ctx.textAlign = 'center';
+        ctx.fillText('double-strand break', pamX, dnaY + helixH + 48);
+        ctx.globalAlpha = 1;
+      }
+
+      const barW = W - 24;
+      ctx.fillStyle = 'rgba(255,255,255,0.08)';
+      ctx.beginPath(); ctx.roundRect(12, H - 10, barW, 4, 2); ctx.fill();
+      ctx.fillStyle = ACCENT;
+      ctx.beginPath(); ctx.roundRect(12, H - 10, barW * p, 4, 2); ctx.fill();
+    }
+
+    function loop(ts) {
+      if (!last) last = ts;
+      const dt = ts - last; last = ts;
+      if (playing) t += dt * speed * 0.045;
+      render(t);
+      raf = requestAnimationFrame(loop);
+    }
+    raf = requestAnimationFrame(loop);
+
+    document.getElementById('btn-play').onclick = function () {
+      playing = !playing;
+      this.textContent = playing ? 'Pause' : 'Play';
+    };
+    document.getElementById('btn-reset').onclick = function () {
+      t = 0; last = null;
+    };
+    document.getElementById('speed-sl').oninput = function () {
+      speed = parseFloat(this.value);
+      document.getElementById('speed-val').textContent = Math.round(speed * 10) / 10 + '×';
+    };
+  </script>
+
+</body>
+</html>
