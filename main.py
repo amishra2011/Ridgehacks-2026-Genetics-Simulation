@@ -1,16 +1,22 @@
 from flask import Flask, render_template, redirect, url_for
 
+
 app = Flask(__name__)
 
 
 @app.route("/")
 def home():
+    return render_template("Home Page/homepage.html")
+
+
+@app.route("/region")
+def region():
     return render_template("Region Page/region.html")
 
 
-@app.route("/webpage")
+@app.route("/information")
 def information():
-    return render_template("Information Page/webpage.html")
+    return render_template("Information Page/info.html")
 
 
 @app.route("/landing")

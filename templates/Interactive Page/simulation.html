@@ -44,6 +44,7 @@
     z-index: 100;
     pointer-events: none;
     transition: opacity 0.4s ease;
+    margin-top: 75px;
   }
 
   #header h1 {
@@ -533,13 +534,20 @@
   </div>
 </div>
 
-<div id="infoModal">
-  <div class="modal-content" style="border-color: #ff4d4d;">
-    <h2 style="color:#ff4d4d; margin-top:0; font-size: 2.2em;">Base Pair Information</h2>
-    <p style="font-size: 1.1em; line-height: 1.6; text-align: left;">The top strand in this simulation is the template
-      strand. It is transcribed into mRNA, which is then translated into amino acids.<br><br>In mRNA, uracil (U)
-      replaces thymine (T). A pairs with U, and C pairs with G.<br><br>Fill the top strand with the base pairs
-      complementary to the desired amino acid.</p>
+<div id="infoModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2 style="color:var(--red-alert); margin-top:0; font-size: 2.2em;">Info</h2>
+    <p style="font-size: 1.1em; text-align: left;">
+      The top strand is the template strand, transcribed into mRNA, then translated into amino acids.<br><br>
+      In mRNA, uracil (U) replaces thymine (T). A pairs with U, and C pairs with G.<br><br>
+      Fill the top strand with the base pairs complementary to the desired amino acid.<br><br>
+      This simulation serves as a functional analogy for CRISPR-Cas9 gene editing.
+      The scanning sequence represents the Guide RNA (gRNA) patrolling the genome to locate a specific target sequence.
+      Once the "anomaly" is identified, the repair interface mirrors Homology-Directed Repair (HDR).
+      In this biological process, the Cas9 enzyme creates a break at the target site,
+      and the cell uses a provided template—represented here by the user’s manual base-pairing—to precisely rewrite the
+      genetic code and eliminate the mutation.
+    </p>
     <button id="closeInfoModalBtn">Exit Info</button>
   </div>
 </div>

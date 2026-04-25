@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RHacks 2026</title>
+    <title>{% block title %}RHacks 2026{% endblock %}</title>
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap"
         rel="stylesheet" />
+
+
     <style>
         *,
         *::before,
@@ -17,6 +22,7 @@
             margin: 0;
             padding: 0;
         }
+
 
         :root {
             --bg: #0d0d0d;
@@ -29,35 +35,42 @@
             --font-sans: 'DM Sans', sans-serif;
         }
 
+
         body {
             background: var(--bg);
-            font-family: var(--font-sans);
+            font-family: "Quicksand";
             color: var(--text);
             min-height: 100vh;
+            font-family: "Quicksand";
         }
+
 
         nav {
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 64px;
             background: var(--bg);
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 2rem;
-            height: 56px;
+            z-index: 1000;
         }
 
+
         .brand {
-            font-family: var(--font-mono);
+            font-family: "Quicksand";
             font-size: 11px;
             font-weight: 500;
             letter-spacing: 0.12em;
             color: var(--accent);
             text-transform: uppercase;
-            margin-right: 2.5rem;
             text-decoration: none;
         }
+
 
         .nav-links {
             display: flex;
@@ -65,49 +78,88 @@
             height: 100%;
         }
 
+
         .nav-link {
             display: flex;
             align-items: center;
             padding: 0 16px;
-            height: 56px;
-            font-family: var(--font-mono);
+            height: 64px;
+            font-family: "Quicksand";
             font-size: 12px;
             color: var(--muted);
             text-decoration: none;
             border-bottom: 2px solid transparent;
-            transition: color 0.2s;
+            transition: all 0.2s ease;
             white-space: nowrap;
         }
+
 
         .nav-link:hover {
             color: var(--text);
         }
 
+
         .nav-link.active {
             color: var(--text);
             border-bottom-color: var(--accent);
         }
+
+
+        .page-content {
+            padding-top: 64px;
+        }
     </style>
+
+
+    {% block head %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Quicksand:wght@300..700&display=swap"
+        rel="stylesheet">
 </head>
+
 
 <body>
 
+
     <nav>
         <a class="brand" href="{{ url_for('home') }}">RHacks / 2026</a>
+
+
         <div class="nav-links">
+
+
             <a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}"
-                href="{{ url_for('home') }}">region</a>
+                href="{{ url_for('home') }}">Home</a>
+
+
+            <a class="nav-link {% if request.endpoint == 'region' %}active{% endif %}"
+                href="{{ url_for('region') }}">Region</a>
+
+
             <a class="nav-link {% if request.endpoint == 'information' %}active{% endif %}"
-                href="{{ url_for('information') }}">information</a>
-            <a class="nav-link {% if request.endpoint == 'profile' %}active{% endif %}"
-                href="{{ url_for('profile') }}">landing</a>
+                href="{{ url_for('information') }}">Information</a>
+
+
             <a class="nav-link {% if request.endpoint == 'interactive' %}active{% endif %}"
-                href="{{ url_for('interactive') }}">interactive</a>
+                href="{{ url_for('interactive') }}">Interactive</a>
+
+
         </div>
     </nav>
 
-    {% block content %}{% endblock %}
 
+
+
+    <main class="page-content">
+        {% block content %}{% endblock %}
+    </main>
+
+
+    {% block scripts %}{% endblock %}
 </body>
+
+
+
+
+
 
 </html>

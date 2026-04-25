@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}
+Gene Editing Tech
+{% endblock %}
+
+{% block head %}
+<style>
+    :root {
+        --bg-dark: #0b0f1a;
+        --panel-dark: #11172a;
+        --accent-blue: #4fc3f7;
+        --text-main: #f3f3f3;
+        --text-dim: #b0bec5;
+    }
+
+    body {
+        background: var(--bg-dark);
+        font-family: 'Quicksand', Arial, sans-serif;
+        color: var(--text-main);
+        line-height: 1.6;
+    }
+
+    /* HERO */
+    .hero {
+        text-align: center;
+        padding: 80px 20px 0px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        color: var(--accent-blue);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 20px;
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--text-dim);
+    }
+
+    /* DNA */
+    .dna-row {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding: 40px 0;
+        height: 160px;
+        overflow: hidden;
+    }
+
+    .pair {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /* EXTENDED BASE CONNECTION (THIS is your “extend” part) */
+    .pair::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -12px;
+        right: -12px;
+        height: 2px;
+        background: rgba(79, 195, 247, 0.25);
+        z-index: 0;
+    }
+
+    .pair::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 2px;
+        background: rgba(79, 195, 247, 0.12);
+        transform: translateX(-50%);
+        z-index: 0;
+    }
+
+    .base {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--accent-blue);
+        color: white;
+        font-weight: bold;
+        background: rgba(79, 195, 247, 0.1);
+        border-radius: 4px;
+        z-index: 2;
+        position: relative;
+    }
+
+    .base-line {
+        width: 2px;
+        height: 30px;
+        background: rgba(79, 195, 247, 0.5);
+        z-index: 1;
+    }
+
+    /* ANIMATIONS */
+    @keyframes moveTop {
+
+        0%,
+        100% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: translateY(-25px) scale(0.8);
+            opacity: 0.6;
+        }
+    }
+
+    @keyframes moveBottom {
+
+        0%,
+        100% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: translateY(25px) scale(0.8);
+            opacity: 0.6;
+        }
+    }
+
+    @keyframes stretchLine {
+
+        0%,
+        100% {
+            height: 30px;
+        }
+
+        50% {
+            height: 80px;
+        }
+    }
+
+    /* CARDS */
+    .section {
+        padding: 0 20px 80px;
+        text-align: center;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .card {
+        background: var(--panel-dark);
+        padding: 25px;
+        width: 240px;
+        border-radius: 12px;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+        transition: 0.3s;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        background: #1a2340;
+        border-color: var(--accent-blue);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .card h3 {
+        margin-bottom: 12px;
+        color: var(--accent-blue);
+    }
+
+    .card p {
+        color: var(--text-dim);
+        font-size: 14px;
+    }
+
+    .creds {
+        text-align: right;
+        padding: 30px 50px 40px;
+        color: var(--text-dim);
+        font-size: 14px;
+        opacity: 0.6;
+    }
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Quicksand:wght@300..700&display=swap"
+    rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+    <h1>Gene Editing Tech</h1>
+    <p>Rewriting the code of life through molecular precision. Discover the tools that are redefining medicine and
+        biotechnology.</p>
+</div>
+
+<div class="dna-row" id="dna-home"></div>
+
+<div class="section">
+    <div class="card-container">
+        <div class="card">
+            <h3>What is Gene Editing?</h3>
+            <p>An introduction to the molecular scissors used to alter DNA sequences.</p>
+        </div>
+
+        <div class="card">
+            <h3>Mutations by Region</h3>
+            <p>Discover common genetic defects that people are born with around the globe.</p>
+        </div>
+
+        <div class="card">
+            <h3>CRISPR Game</h3>
+            <p>A deep dive into the Cas9 system: the world's most precise tool.</p>
+        </div>
+    </div>
+</div>
+
+<div class="creds">Made with ♥ by team YAAM</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const dnaContainer = document.getElementById("dna-home");
+
+    const pairs = [
+        ["A", "T"], ["G", "C"], ["T", "A"], ["C", "G"], ["A", "T"],
+        ["G", "C"], ["T", "A"], ["C", "G"], ["T", "A"], ["G", "C"]
+    ];
+
+    pairs.forEach((pair, i) => {
+        const pairDiv = document.createElement("div");
+        pairDiv.className = "pair";
+
+        const delay = i * 0.15;
+
+        pairDiv.innerHTML = `
+            <div class="base" style="animation: moveTop 1.5s ease-in-out ${delay}s infinite">${pair[0]}</div>
+            <div class="base-line" style="animation: stretchLine 1.5s ease-in-out ${delay}s infinite"></div>
+            <div class="base" style="animation: moveBottom 1.5s ease-in-out ${delay}s infinite">${pair[1]}</div>
+        `;
+
+        dnaContainer.appendChild(pairDiv);
+    });
+</script>
+{% endblock %}
