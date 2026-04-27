@@ -32,7 +32,7 @@ def interactive():
 @app.route('/api/explain-mutation', methods=['POST'])
 def explain_mutation():
     data = request.json
-    GEMINI_API_KEY = "AIzaSyBjl_IYvQSt9KGfr4qRrDuFHjMjiGDoZGU"
+    GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"
 
     response = requests.post(
         f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}",
