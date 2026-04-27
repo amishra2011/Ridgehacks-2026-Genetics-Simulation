@@ -1,5 +1,5 @@
-from flask import Flask, render_template, redirect, url_for
-
+from flask import Flask, render_template, redirect, url_for, request, jsonify
+import requests
 
 app = Flask(__name__)
 
@@ -27,6 +27,28 @@ def profile():
 @app.route("/interactive")
 def interactive():
     return render_template("Interactive Page/simulation.html")
+
+
+@app.route('/api/explain-mutation', methods=['POST'])
+def explain_mutation():
+    data = request.json
+    GEMINI_API_KEY = "AIzaSyBjl_IYvQSt9KGfr4qRrDuFHjMjiGDoZGU"
+
+    response = requests.post(
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}",
+        headers={"Content-Type": "application/json"},
+        json={
+            "contents": [
+                {
+                    "parts": [{"text": data['prompt']}]
+                }
+            ]
+        }
+    )
+
+    result = response.json()
+    text = result['candidates'][0]['content']['parts'][0]['text']
+    return jsonify({"text": text})
 
 
 if __name__ == "__main__":
