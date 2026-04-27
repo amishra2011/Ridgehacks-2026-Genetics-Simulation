@@ -26,6 +26,23 @@ def region():
     return render_template("Region Page/region.html")
 
 
+@app.route('/api/explain-mutation', methods=['POST'])
+def explain_mutation():
+    data = request.json
+    print("REQUEST DATA:", data)
+    GEMINI_API_KEY = os.getenv("AIzaSyA0ArZ1DO-dK-f9XwXiLtlnhYlmhBplXkM")
+    response = requests.post(
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={"AIzaSyA0ArZ1DO-dK-f9XwXiLtlnhYlmhBplXkM"}",
+        headers={"Content-Type": "application/json"},
+        json={"contents": [{"parts": [{"text": data['prompt']}]}]}
+    )
+    print("GEMINI STATUS:", response.status_code)
+    print("GEMINI RESPONSE:", response.json())
+    result = response.json()
+    text = result['candidates'][0]['content']['parts'][0]['text']
+    return jsonify({"text": text})
+
+
 @app.route("/information")
 def information():
     return render_template("Information Page/info.html")
@@ -81,20 +98,6 @@ def google_login():
 def logout():
     session.pop('user', None)
     return redirect(url_for('login'))
-
-
-@app.route('/api/explain-mutation', methods=['POST'])
-def explain_mutation():
-    data = request.json
-    GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"
-    response = requests.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}",
-        headers={"Content-Type": "application/json"},
-        json={"contents": [{"parts": [{"text": data['prompt']}]}]}
-    )
-    result = response.json()
-    text = result['candidates'][0]['content']['parts'][0]['text']
-    return jsonify({"text": text})
 
 
 if __name__ == "__main__":
